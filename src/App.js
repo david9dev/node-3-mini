@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import HistoryModal from './components/HistoryModal';
+import axios from 'axios';
 import './App.css';
 
 class App extends Component {
@@ -18,9 +19,30 @@ class App extends Component {
   
   componentDidMount() {
     //create request here
+    axios.get('/api/messages')
+    .then((response) =>
+    {
+      this.setState({
+        allMessages: response.data
+      });
+    });
   }
 
   // CREATE MESSAGE METHOD
+  createMessage()
+  {
+    const newMessage = {
+      username: this.state.username,
+      message: this.state.message
+    };
+    axios.post('/api/messages', newMessage)
+    .then((response) =>
+    {
+      this.setState({
+        allMessages: response.data
+      });
+    });
+  }
   
 
   saveUsername() {
